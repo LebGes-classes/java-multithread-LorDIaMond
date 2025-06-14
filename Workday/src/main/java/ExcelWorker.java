@@ -53,8 +53,7 @@ public class ExcelWorker {
             row.createCell(3).setCellValue(employee.getIdleTime());
             row.createCell(4).setCellValue(employee.getTasksCompleted());
 
-            double efficiency = (double) employee.getTotalWorkTime() /
-                    (8 * Math.max(1, employee.getTasksCompleted() + (employee.getTasks().isEmpty() ? 0 : 1)));
+            double efficiency = (double) employee.getTotalWorkTime() / (8*employee.getDays());;
 
             row.createCell(5).setCellValue(efficiency * 100);
         }

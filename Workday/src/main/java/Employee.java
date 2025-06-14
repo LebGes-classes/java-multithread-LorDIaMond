@@ -9,6 +9,7 @@ class Employee implements Runnable {
     private int totalWorkTime = 0;
     private int idleTime = 0;
     private int tasksCompleted = 0;
+    private int days = 0;
 
     public Employee(int id, String name, List<Integer> tasks) {
         this.id = id;
@@ -36,6 +37,10 @@ class Employee implements Runnable {
         return tasksCompleted;
     }
 
+    public int getDays() {
+        return days;
+    }
+
     public Queue<Integer> getTasks() {
         return tasks;
     }
@@ -46,6 +51,7 @@ class Employee implements Runnable {
 
         while (!tasks.isEmpty()) {
             int remainingDayTime = 8;
+            days++;
 
             while (remainingDayTime > 0 && !tasks.isEmpty()) {
                 int currentTask = tasks.peek();
@@ -53,9 +59,10 @@ class Employee implements Runnable {
                 if (currentTask <= remainingDayTime) {
 
                     totalWorkTime += currentTask;
-                    remainingDayTime -= currentTask;
+                    idleTime = remainingDayTime - currentTask;
                     tasks.poll();
                     tasksCompleted++;
+                    remainingDayTime = 0;
                 } else {
 
                     totalWorkTime += remainingDayTime;
@@ -72,7 +79,7 @@ class Employee implements Runnable {
         }
 
         // Расчет эффективности
-        double efficiency = (double) totalWorkTime / (8 * (tasksCompleted + (tasks.isEmpty() ? 0 : 1)));
+        double efficiency = (double) totalWorkTime / (8*days);
         System.out.printf("%s: %dч работы, %dч простоя, %d задач выполнено, эффективность: %.2f%%\n",
                 name, totalWorkTime, idleTime, tasksCompleted, efficiency * 100);
     }
